@@ -31,13 +31,11 @@ export function registerCrawlingTool(server: McpServer, config?: { exaApiKey?: s
         });
 
         const crawlRequest = {
-          ids: [url],
-          contents: {
-            text: {
-              maxCharacters: maxCharacters || API_CONFIG.DEFAULT_MAX_CHARACTERS
-            },
-            livecrawl: 'always'
-          }
+          urls: [url],
+          text: {
+            maxCharacters: maxCharacters || API_CONFIG.DEFAULT_MAX_CHARACTERS
+          },
+          livecrawl: 'always'
         };
         
         logger.log("Sending crawl request to Exa API");
@@ -50,7 +48,7 @@ export function registerCrawlingTool(server: McpServer, config?: { exaApiKey?: s
         
         logger.log("Received response from Exa API");
 
-        if (!response.data || !response.data.contents) {
+        if (!response.data || !response.data.results || response.data.results.length === 0) {
           logger.log("Warning: Empty or invalid response from Exa API");
           return {
             content: [{

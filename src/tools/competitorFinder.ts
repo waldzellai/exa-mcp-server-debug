@@ -36,6 +36,7 @@ export function registerCompetitorFinderTool(server: McpServer, config?: { exaAp
           ? `${companyName} competitors similar companies ${industry} industry competitive landscape`
           : `${companyName} competitors similar companies competitive landscape market`;
 
+        // Build search request with optional domain filtering
         const searchRequest: ExaSearchRequest = {
           query: searchQuery,
           type: "neural",
@@ -45,9 +46,11 @@ export function registerCompetitorFinderTool(server: McpServer, config?: { exaAp
               maxCharacters: API_CONFIG.DEFAULT_MAX_CHARACTERS
             },
             livecrawl: 'always'
-          },
-          includeDomains: ["crunchbase.com", "bloomberg.com", "techcrunch.com", "forbes.com", "businessinsider.com", "reuters.com", "linkedin.com"]
+          }
         };
+        
+        // Removed domain restrictions to allow broader competitor discovery
+        // The neural search is better at finding relevant competitors without domain filtering
         
         logger.log("Sending request to Exa API for competitor analysis");
         
