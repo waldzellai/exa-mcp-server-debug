@@ -27,7 +27,7 @@ export function registerCrawlingTool(server: McpServer, config?: { exaApiKey?: s
             'content-type': 'application/json',
             'x-api-key': config?.exaApiKey || process.env.EXA_API_KEY || ''
           },
-          timeout: 25000
+          timeout: 10000
         });
 
         const crawlRequest = {
@@ -36,7 +36,7 @@ export function registerCrawlingTool(server: McpServer, config?: { exaApiKey?: s
             text: {
               maxCharacters: maxCharacters || API_CONFIG.DEFAULT_MAX_CHARACTERS
             },
-            livecrawl: 'preferred'
+            livecrawl: 'always'
           }
         };
         
@@ -45,7 +45,7 @@ export function registerCrawlingTool(server: McpServer, config?: { exaApiKey?: s
         const response = await axiosInstance.post(
           '/contents',
           crawlRequest,
-          { timeout: 25000 }
+          { timeout: 10000 }
         );
         
         logger.log("Received response from Exa API");

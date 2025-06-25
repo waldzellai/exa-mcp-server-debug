@@ -29,7 +29,7 @@ export function registerCompetitorFinderTool(server: McpServer, config?: { exaAp
             'content-type': 'application/json',
             'x-api-key': config?.exaApiKey || process.env.EXA_API_KEY || ''
           },
-          timeout: 25000
+          timeout: 10000
         });
 
         const searchQuery = industry 
@@ -44,7 +44,7 @@ export function registerCompetitorFinderTool(server: McpServer, config?: { exaAp
             text: {
               maxCharacters: API_CONFIG.DEFAULT_MAX_CHARACTERS
             },
-            livecrawl: 'preferred'
+            livecrawl: 'always'
           },
           includeDomains: ["crunchbase.com", "bloomberg.com", "techcrunch.com", "forbes.com", "businessinsider.com", "reuters.com", "linkedin.com"]
         };
@@ -54,7 +54,7 @@ export function registerCompetitorFinderTool(server: McpServer, config?: { exaAp
         const response = await axiosInstance.post<ExaSearchResponse>(
           API_CONFIG.ENDPOINTS.SEARCH,
           searchRequest,
-          { timeout: 25000 }
+          { timeout: 10000 }
         );
         
         logger.log("Received response from Exa API");

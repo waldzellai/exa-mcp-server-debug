@@ -29,7 +29,7 @@ export function registerLinkedInSearchTool(server: McpServer, config?: { exaApiK
             'content-type': 'application/json',
             'x-api-key': config?.exaApiKey || process.env.EXA_API_KEY || ''
           },
-          timeout: 25000
+          timeout: 10000
         });
 
         let searchQuery = query;
@@ -49,7 +49,7 @@ export function registerLinkedInSearchTool(server: McpServer, config?: { exaApiK
             text: {
               maxCharacters: API_CONFIG.DEFAULT_MAX_CHARACTERS
             },
-            livecrawl: 'preferred'
+            livecrawl: 'always'
           },
           includeDomains: ["linkedin.com"]
         };
@@ -59,7 +59,7 @@ export function registerLinkedInSearchTool(server: McpServer, config?: { exaApiK
         const response = await axiosInstance.post<ExaSearchResponse>(
           API_CONFIG.ENDPOINTS.SEARCH,
           searchRequest,
-          { timeout: 25000 }
+          { timeout: 10000 }
         );
         
         logger.log("Received response from Exa API");
