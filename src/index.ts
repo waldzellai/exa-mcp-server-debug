@@ -69,6 +69,7 @@ export default function ({ config }: { config: z.infer<typeof configSchema> }) {
         resources: {},
         tools: {},
       },
+      port: 8182,
     });
     
     log("Server initialized with modern MCP SDK and Smithery CLI support");
