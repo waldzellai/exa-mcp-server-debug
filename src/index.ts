@@ -11,6 +11,7 @@ import { registerCompetitorFinderTool } from "./tools/competitorFinder.js";
 import { registerLinkedInSearchTool } from "./tools/linkedInSearch.js";
 import { registerWikipediaSearchTool } from "./tools/wikipediaSearch.js";
 import { registerGithubSearchTool } from "./tools/githubSearch.js";
+import { registerHallucinationDetectionGuide } from "./resources/hallucinationDetectionGuide.js";
 import { log } from "./utils/logger.js";
 
 // Configuration schema for the EXA API key and tool selection
@@ -59,7 +60,11 @@ export default function ({ config }: { config: z.infer<typeof configSchema> }) {
     // Create MCP server
     const server = new McpServer({
       name: "exa-search-server",
-      version: "1.0.0"
+      version: "1.0.0",
+      capabilities: {
+        resources: {},
+        tools: {},
+      },
     });
     
     log("Server initialized with modern MCP SDK and Smithery CLI support");
@@ -114,6 +119,9 @@ export default function ({ config }: { config: z.infer<typeof configSchema> }) {
       registerGithubSearchTool(server, config);
       registeredTools.push('github_search_exa');
     }
+    
+    // Always register the hallucination detection guide as a resource
+    registerHallucinationDetectionGuide(server);
     
     if (config.debug) {
       log(`Registered ${registeredTools.length} tools: ${registeredTools.join(', ')}`);
