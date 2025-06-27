@@ -51,7 +51,11 @@ const availableTools = {
 export default function ({ config }: { config: z.infer<typeof configSchema> }) {
   try {
     // Set the API key in environment for tool functions to use
-    // process.env.EXA_API_KEY = config.exaApiKey;
+    if (config.exaApiKey) {
+      process.env.EXA_API_KEY = config.exaApiKey;
+    } else if (config.debug) {
+      log("Warning: EXA_API_KEY is not set. Tool functionality may be limited.");
+    }
     
     if (config.debug) {
       log("Starting Exa MCP Server in debug mode");
@@ -59,8 +63,8 @@ export default function ({ config }: { config: z.infer<typeof configSchema> }) {
 
     // Create MCP server
     const server = new McpServer({
-      name: "exa-search-server",
-      version: "1.0.0",
+      name: "exa-mcp-server",
+      version: "2.0.0",
       capabilities: {
         resources: {},
         tools: {},
